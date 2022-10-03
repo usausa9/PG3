@@ -13,7 +13,8 @@ T min(T a, T b)
 
 template<>
 char min<char>(char a, char b) {
-	return printf("”šˆÈŠO‚Í‘ã“ü‚Å‚«‚Ü‚¹‚ñ");
+	printf("”šˆÈŠO‚Í‘ã“ü‚Å‚«‚Ü‚¹‚ñ");
+	return 0;
 }
 
 int main(void) {
