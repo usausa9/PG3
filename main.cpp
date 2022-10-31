@@ -5,7 +5,7 @@
 typedef void (*PFunc)(int *,int *);
 
 // コールバック関数1
-void CallBack1(int* s , int* ans) {
+void Raffle(int* s , int* ans) {
 	srand(time(NULL));
 
 	int result = rand() % 6 + 1;
@@ -64,7 +64,7 @@ int main(void) {
 	printf("\n答えは・・・\n");
 
 	PFunc p;
-	p = CallBack1;
+	p = Raffle;
 	SetTimeOut(p, 3 , answer);
 
 	return 0;
