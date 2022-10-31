@@ -5,7 +5,7 @@
 
 typedef void (*PFunc)(int);
 
-void callback(int num)
+void Raffle(int num)
 {
 	srand(time(NULL));
 	int result = rand() % 6 + 1;
@@ -25,7 +25,7 @@ void callback(int num)
 int main(int argc, const char *argv[]) {
 
 	PFunc p;
-	p = callback;
+	p = Raffle;
 
 	int answer = 0;
 
