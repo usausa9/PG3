@@ -3,61 +3,25 @@
 #include <Windows.h>
 #include <time.h>
 
-typedef void (*PFunc)(int);
-
-void Raffle(int num)
-{
-	srand(time(NULL));
-	int result = rand() % 6 + 1;
-
-	printf("\n出目 : %d\n", result);
-
-	if (result % 2 == num % 2)
-	{
-		printf("正解！！！\n\n");
-	}
-	else
-	{
-		printf("不正解...\n\n");
-	}
-}
-
 int main(int argc, const char *argv[]) {
 
-	PFunc p;
-	p = Raffle;
-
-	int answer = 0;
+	srand(time(NULL));
 
 	printf("サイコロを振りました!\n\n結果が偶数だと思うなら 0 \n結果が奇数だと思うなら 1 を入力してください\n\n");
 	printf("入力を受け付け中...  ");
 
+	int answer = 0;
+
 	scanf_s("%d", &answer);
 
-	std::function<void(PFunc, int)>setTimeout = [=](PFunc p, int sec)
-	{
-		printf("結果は・・・\n");
+	int waitSecond = 3; // 待ち時間
 
-		Sleep(sec *= 1000);
-		p(answer);
-	};
+	std::function<void(std::function<void()>, int)>SetTimeout = [](std::function<void()> fx, int sec) { Sleep(sec * 1000);  fx(); }; // タイムアウト関数
 
-	if (answer == 0)
-	{
-		printf("\nAnswer : 偶数\n");
-		setTimeout(p, 3);
-	}
-	else if (answer == 1)
-	{
-		printf("\nAnswer : 奇数\n");
-		setTimeout(p, 3);
-	}
-	else
-	{
-		printf("\nError!\n");
-		return 0;
-	}
-	
+	std::function<void()> Lottery = [=]() {rand() % 2 == answer ? printf("\n正解！\n") : printf("\n不正解...\n"); }; // 抽選する関数
+
+	// 抽選実行
+	SetTimeout(Lottery, 3);
 
 	return 0;
 }
