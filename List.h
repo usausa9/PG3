@@ -11,15 +11,21 @@ struct Cell
 template <typename T>
 class List
 {
-	~List()
+public:
+	List()
 	{
-		Clear(); // メモリリークは罪
+		dummy = new Cell<T>;
 	};
 
-private:
+	~List()
+	{
+		Clear();		// メモリリークは罪
+		delete dummy;	// メモリリークは罪 season2
+	};
+
 	Cell<T>* dummy;
 	
-private:
+public:
 	// プッシュバック処理
 	void PushBack(T obj)
 	{
@@ -45,7 +51,7 @@ private:
 	// 挿入処理
 	void Insert(Cell<T>* itr, T obj)
 	{
-		Cell<T>* iCell;
+		Cell<T>* iCell = nullptr;
 		iCell = itr;
 
 		if (iCell == nullptr) 
@@ -53,7 +59,7 @@ private:
 			return PushBack(obj);
 		}
 
-		Cell<T>* newCell;
+		Cell<T>* newCell = new Cell<T>();
 		newCell->data = obj;
 		
 		newCell->prev = iCell->prev;
@@ -110,13 +116,13 @@ private:
 	// 1つ目のセルを取得
 	Cell<T>* GetBegin()
 	{
-		return &dummy->next;
+		return dummy->next;
 	}
 
 	// 最後のセルを取得
 	Cell<T>* GetEnd()
 	{
-		return &dummy->prev;
+		return dummy->prev;
 	}
 
 	// index番目のセルを取得
@@ -126,7 +132,14 @@ private:
 
 		for (int i = 0; i < index; i++)
 		{
-			current = current->next;
+			if (current)
+			{
+				current = current->next;
+			}
+			else
+			{
+				return nullptr;
+			}
 		}
 
 		return current;
