@@ -20,6 +20,7 @@ private:
 	Cell<T>* dummy;
 	
 private:
+	// プッシュバック処理
 	void PushBack(T obj)
 	{
 		Cell<T>* pBack;
@@ -41,6 +42,7 @@ private:
 		
 	}
 
+	// 挿入処理
 	void Insert(Cell<T>* itr, T obj)
 	{
 		Cell<T>* iCell;
