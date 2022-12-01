@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include <iostream>
 #include <list>
+#include <iostream>
+
+#include "List.h"
 
 enum State 
 {
@@ -27,10 +29,10 @@ int main()
 	itr = lst.insert(itr, "orange");
 
 	int state = 0;
-
-	int isDraw[3] = {};
-	int userInput[3] = {};
+	int state2[3] = {};
+	
 	char str[16] = {};
+	int userInput[3] = {};
 
 	while (true)
 	{
@@ -54,8 +56,8 @@ int main()
 
 		if (state == OUTPUT) 
 		{
-			//要素の表示
-			if (isDraw[0] == 0) 
+			// 要素の表示
+			if (state2[0] == 0) 
 			{
 				// 画面クリア
 				system("cls");
@@ -67,13 +69,15 @@ int main()
 				printf("9.要素操作に戻る\n");
 				printf("\n操作を選択してください。\n");
 				scanf_s("%d", &userInput[0]);
-				isDraw[0] = 1;
+				state2[0] = 1;
 			}
 
-			//要素の一覧表示
-			if (userInput[0] == 1 && isDraw[1] == 0) 
+			// 要素の一覧表示
+			if (userInput[0] == 1 && state2[1] == 0) 
 			{
+				// 画面クリア
 				system("cls");
+
 				printf("[要素の一覧表示]\n");
 				printf("要素一覧: {\n");
 
@@ -99,18 +103,20 @@ int main()
 
 				scanf_s("%d", &userInput[1]);
 
-				isDraw[1] = 1;
+				state2[1] = 1;
 			}
 
-			//順番を指定して要素を表示
-			if (userInput[0] == 2 && isDraw[2] == 0) 
+			// 順番を指定して要素を表示
+			if (userInput[0] == 2 && state2[2] == 0) 
 			{
+				// 画面クリア
 				system("cls");
+
 				printf("[順番を指定して要素を表示]\n");
 
 				printf("表示したい要素の順番を指定してください。\n");
 
-				//ここに入力された要素の出力
+				// ここに入力された要素の出力
 				scanf_s("%d", &userInput[2]);
 				printf("\n%d: ", userInput[2]);
 				itr = lst.begin();
@@ -126,22 +132,22 @@ int main()
 
 				scanf_s("%d", &userInput[1]);
 
-				isDraw[2] = 1;
+				state2[2] = 1;
 			}
 
 			if (userInput[1] == 1) 
 			{
-				isDraw[0] = 0;
-				isDraw[1] = 0;
-				isDraw[2] = 0;
+				state2[0] = 0;
+				state2[1] = 0;
+				state2[2] = 0;
 			}
 
 			// 要素操作に戻る
 			if (userInput[0] == 9 || userInput[1] == 2) 
 			{
-				isDraw[0] = 0;
-				isDraw[1] = 0;
-				isDraw[2] = 0;
+				state2[0] = 0;
+				state2[1] = 0;
+				state2[2] = 0;
 				state = MENU;
 			}
 		}
@@ -149,9 +155,11 @@ int main()
 		// 要素の挿入
 		if (state == INSERT) 
 		{
-			if (isDraw[0] == 0) 
+			if (state2[0] == 0) 
 			{
+				// 画面クリア
 				system("cls");
+
 				printf("[リスト要素の挿入]\n");
 				printf("要素を追加する場所を指定してください。");
 				printf("最後尾に追加する場合は何も入力しないでください。\n");
@@ -166,29 +174,32 @@ int main()
 
 				printf("\n9.要素操作に戻る\n");
 				scanf_s("%d", &userInput[2]);
-				isDraw[0] = 1;
+				state2[0] = 1;
 			}
 
 			if (userInput[2] == 9) 
 			{
-				isDraw[0] = 0;
+				state2[0] = 0;
 				state = MENU;
 			}
 		}
 
 		if (state == EDIT) 
 		{
-			printf("要素の編集\n");
+			// 画面クリア
+			system("cls");
 		}
 
 		if (state == DELETE) 
 		{
-			printf("要素の削除\n");
+			// 画面クリア
+			system("cls");
 		}
 
 		if (state == SORT) 
 		{
-			printf("要素の並び替え\n");
+			// 画面クリア
+			system("cls");
 		}
 	}
 
