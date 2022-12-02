@@ -31,10 +31,9 @@ int main()
 	
 	char str[64] = {};
 	int selectInput[3] = {};
-	string input;
+	string input;	// 改行のみの場合
 
-	int cellNum = 0;
-
+	unsigned int cellNum = 0;	// index用
 
 	while (true)
 	{
@@ -143,13 +142,6 @@ int main()
 				scanf_s("%*[^\n]%*c");
 
 				printf("\n%d: \"%s\"\n\n", selectInput[2], myList.GetData(selectInput[2])->c_str());
-
-				/*itr = lst.begin();
-				for (int i = 0; i < userInput[2]; i++)
-				{
-					++itr;
-				}
-				cout << *itr << "\n";*/
 
 				printf("\n------------------------------------\n");
 				printf("1.要素の表示に戻る\n");
