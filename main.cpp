@@ -46,14 +46,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// ゲームループで使う変数の宣言
 
-	std::vector<std::unique_ptr<Enemy>> enemies_;
+	Enemy enemy;
 
-	for (int i = 0; i < 5; i++)
-	{
-		std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>(140 + 70 * i , 300);
-		enemies_.emplace_back(std::move(newEnemy));
-	}
-	
 	// 最新のキーボード情報用
 	char keys[256] = {0};
 
@@ -77,62 +71,32 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-		if (keys[KEY_INPUT_R] && oldkeys[KEY_INPUT_R] == false)
+		/*if (keys[KEY_INPUT_R] && oldkeys[KEY_INPUT_R] == false)
 		{
-			for (int i = 0; i < 5; i++)
-			{
-				std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>(140 + 70 * i, 300);
-				enemies_.emplace_back(std::move(newEnemy));
-			}
 
-			Enemy::isAllDead = false;
-		}
+		}*/
 
-		for (std::unique_ptr<Enemy>& enemy : enemies_) 
-		{
-			enemy->Update();
-
-			if (enemy->GetAllDead()) {
-				enemies_.clear();
-			}
-		}
-
-		if (keys[KEY_INPUT_Y] && oldkeys[KEY_INPUT_Y] == false)
-		{
-			for (std::unique_ptr<Enemy>& enemy : enemies_) 
-			{
-				if (enemy->x < 150)
-				{
-					enemy->SetIsDead();
-				}
-			}
-		}
-
-		if (keys[KEY_INPUT_I] && oldkeys[KEY_INPUT_I] == false)
-		{
-			for (std::unique_ptr<Enemy>& enemy : enemies_)
-			{
-				if (enemy->x > 400)
-				{
-					enemy->SetIsDead();
-				}
-			}
-		}
+		enemy.Update();
 
 
 		// 描画処理
 		const int cWhite = 0xffffff;
-
-		DrawFormatString(20, 80, cWhite, "\"キーバインド\"");
-		DrawFormatString(20, 100, cWhite, "R : 最初の状態に戻す");
-		DrawFormatString(20, 120, cWhite, "Y : 一番左の敵に攻撃");
-		DrawFormatString(20, 140, cWhite, "I : 一番左の敵に攻撃");
-
-		for (std::unique_ptr<Enemy>& enemy : enemies_)
+		
+		if (enemy.phase_ == enemy.MELEE)
 		{
-			DrawCircle(enemy->x, enemy->y, 12, 0xffff00);
+			DrawFormatString(20, 80, cWhite, "現在のEnemyの状態 : 接近");
+			DrawFormatString(20, 100, cWhite, "     NEXT      : 射撃");
 		}
-
+		else if (enemy.phase_ == enemy.SHOT)
+		{
+			DrawFormatString(20, 80, cWhite, "現在のEnemyの状態 : 射撃");
+			DrawFormatString(20, 100, cWhite, "     NEXT      : 離脱");
+		}
+		else if (enemy.phase_ == enemy.ESCAPE)
+		{
+			DrawFormatString(20, 80, cWhite, "現在のEnemyの状態 : 離脱");
+			DrawFormatString(20, 100, cWhite, "     NEXT      : 接近");
+		}
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
 		ScreenFlip();

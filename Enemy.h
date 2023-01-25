@@ -1,31 +1,29 @@
 #pragma once
 
-enum class State
-{
-	ALIVE,
-	DEAD
-};
-
 class Enemy
 {
-public:
-	int x;
-	int y;
-
-	Enemy() : x(0), y(0) {}
-	Enemy(int x, int y) : x(x), y(y) {}
 
 public:
+	enum stateTable
+	{
+		MELEE,
+		SHOT,
+		ESCAPE
+	}phase_ = MELEE;
 
-	static bool isAllDead;
+public:
+	void MeleeAttack();
+	void ShootingAttack();
+	void Withdrawal();
 
-	bool GetAllDead() { return isAllDead; }
-	void SetIsDead() { isDead = true; }
+	void StateChange();
 
 	void Update();
 
 private:
+	static void(Enemy::*State[])();
 
-	bool isDead = false;
+	int stateChangeTimer = 120;
+	const int maxStateChangeTimer = stateChangeTimer;
 };
 
